@@ -10,14 +10,11 @@ class DbConfig
     public $port = '3306';
     public $username = 'root';
     public $passwd = 'root';
-//    public $socket = '';
+    public $socket = '';
 
     public function __construct()
     {
         $this->dsn =
-            $this->db_type . ':' .
-            'host=' . $this->host . ';' .
-            'dbname=' . $this->dbname . ';' .
-            'port=' . $this->port;
+            "{$this->db_type}:host={$this->host};dbname={$this->dbname};port={$this->port}";
     }
 }
