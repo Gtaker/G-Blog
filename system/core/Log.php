@@ -14,13 +14,19 @@ class Log
     const DEBUG = 'debug';
 
     private $log_path = LOG_PATH;
+    private $star_time;
+    private $today;
 
     /**
      * 构造方法
      */
     public function __construct()
     {
+        $this->today = date('Y-m-d');
+        $date = $this->log_path . DIRECTORY_SEPARATOR . $this->today;
+        $this->star_time = date('Y-m-d H:i:s');
 
+        is_dir(LOG_PATH) || mkdir(LOG_PATH);
     }
 
     /**
@@ -32,7 +38,16 @@ class Log
      */
     public function emergency($message, array $context = array()): void
     {
-
+        $file_path = $this->log_path .
+            DIRECTORY_SEPARATOR . $this->today . '.txt';
+        $flag = file_exists($file_path);
+        $fs = fopen($file_path, 'a');
+        $message =
+            "----- EMERGENCY -----\r\n" .
+            '----- frame start at:' . $this->star_time . "-----\r\n" .
+            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "----- message: $message -----" . "\r\n\r\n\r\n";
+        fwrite($fs, $message);
     }
 
     /**
@@ -46,7 +61,16 @@ class Log
      */
     public function alert($message, array $context = array()): void
     {
-
+        $file_path = $this->log_path .
+            DIRECTORY_SEPARATOR . $this->today . '.txt';
+        $flag = file_exists($file_path);
+        $fs = fopen($file_path, 'a');
+        $message =
+            "----- ALERT -----\r\n" .
+            '----- frame start at:' . $this->star_time . "-----\r\n" .
+            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "----- message: $message -----" . "\r\n\r\n\r\n";
+        fwrite($fs, $message);
     }
 
     /**
@@ -60,7 +84,16 @@ class Log
      */
     public function critical($message, array $context = array()): void
     {
-
+        $file_path = $this->log_path .
+            DIRECTORY_SEPARATOR . $this->today . '.txt';
+        $flag = file_exists($file_path);
+        $fs = fopen($file_path, 'a');
+        $message =
+            "----- CRITICAL -----\r\n" .
+            '----- frame start at:' . $this->star_time . "-----\r\n" .
+            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "----- message: $message -----" . "\r\n\r\n\r\n";
+        fwrite($fs, $message);
     }
 
     /**
@@ -72,7 +105,16 @@ class Log
      */
     public function error($message, array $context = array()): void
     {
-
+        $file_path = $this->log_path .
+            DIRECTORY_SEPARATOR . $this->today . '.txt';
+        $flag = file_exists($file_path);
+        $fs = fopen($file_path, 'a');
+        $message =
+            "----- ERROR -----\r\n" .
+            '----- frame start at:' . $this->star_time . "-----\r\n" .
+            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "----- message: $message -----" . "\r\n\r\n\r\n";
+        fwrite($fs, $message);
     }
 
     /**
@@ -86,6 +128,17 @@ class Log
      */
     public function warning($message, array $context = array()): void
     {
+        $file_path = $this->log_path .
+            DIRECTORY_SEPARATOR . $this->today .
+            DIRECTORY_SEPARATOR . date('H-i-s') . '.txt';
+        $flag = file_exists($file_path);
+        $fs = fopen($file_path, 'a');
+        $message =
+            "----- WARNING -----\r\n" .
+            '----- frame start at:' . $this->star_time . "-----\r\n" .
+            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "----- message: $message -----" . "\r\n\r\n\r\n";
+        fwrite($fs, $message);
 
     }
 
@@ -98,7 +151,17 @@ class Log
      */
     public function notice(string $message, array $context = array()): void
     {
-
+        $file_path = $this->log_path .
+            DIRECTORY_SEPARATOR . $this->today .
+            DIRECTORY_SEPARATOR . date('H-i-s') . '.txt';
+        $flag = file_exists($file_path);
+        $fs = fopen($file_path, 'a');
+        $message =
+            "----- NOTICE -----\r\n" .
+            '----- frame start at:' . $this->star_time . "-----\r\n" .
+            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "----- message: $message -----" . "\r\n\r\n\r\n";
+        fwrite($fs, $message);
     }
 
     /**
@@ -112,7 +175,17 @@ class Log
      */
     public function info(string $message, array $context = array()): void
     {
-
+        $file_path = $this->log_path .
+            DIRECTORY_SEPARATOR . $this->today .
+            DIRECTORY_SEPARATOR . date('H-i-s') . '.txt';
+        $flag = file_exists($file_path);
+        $fs = fopen($file_path, 'a');
+        $message =
+            "----- INFO -----\r\n" .
+            '----- frame start at:' . $this->star_time . "-----\r\n" .
+            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "----- message: $message -----" . "\r\n\r\n\r\n";
+        fwrite($fs, $message);
     }
 
     /**
@@ -124,7 +197,17 @@ class Log
      */
     public function debug($message, array $context = array()): void
     {
-
+        $file_path = $this->log_path .
+            DIRECTORY_SEPARATOR . $this->today .
+            DIRECTORY_SEPARATOR . date('H-i-s') . '.txt';
+        $flag = file_exists($file_path);
+        $fs = fopen($file_path, 'a');
+        $message =
+            "----- DEBUG -----\r\n" .
+            '----- frame start at:' . $this->star_time . "-----\r\n" .
+            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "----- message: $message -----" . "\r\n\r\n\r\n";
+        fwrite($fs, $message);
     }
 
     /**
@@ -137,7 +220,17 @@ class Log
      */
     public function log($level, $message, array $context = array()): void
     {
-
+        $file_path = $this->log_path .
+            DIRECTORY_SEPARATOR . $this->today .
+            DIRECTORY_SEPARATOR . date('H-i-s') . '.txt';
+        $flag = file_exists($file_path);
+        $fs = fopen($file_path, 'a');
+        $message =
+            "----- LOG -----\r\n" .
+            '----- frame start at:' . $this->star_time . "-----\r\n" .
+            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "----- message: $message -----" . "\r\n\r\n\r\n";
+        fwrite($fs, $message);
     }
 
 }
