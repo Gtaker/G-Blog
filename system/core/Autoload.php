@@ -12,6 +12,6 @@ spl_autoload_register(function ($class) {
     if (file_exists($address)) {
         require_once $address;
     }else{
-        throw new \Exception('引用的文件不存在！');
+        throw new \Exception("文件 {$address} 不存在！");
     }
 });
