@@ -4,6 +4,9 @@ namespace Tracer\system\core\Common;
 
 /**
  * 以单例的形式调用类
+ * @param string $class
+ * @param array  ...$param
+ * @return mixed
  */
 function &load_class(string $class, ... $param)
 {
@@ -24,7 +27,7 @@ function &load_class(string $class, ... $param)
 /**
  * 显示404界面
  */
-function show404()
+function show404(): void
 {
     $error_handler = &load_class('Exception');
     $error_handler->show404();
@@ -34,7 +37,7 @@ function show404()
 /**
  * 错误处理函数
  */
-function errorHandler()
+function errorHandler($errno,$errstr,$errfile,$errline)
 {
 
 }
