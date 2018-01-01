@@ -17,9 +17,10 @@ class Config
             if ($file == '.' || $file == '..') {
                 continue;
             }
-            $file = 'Tracer\application\config\\'.substr($file, 0, -4);
-            foreach (new $file() as $key => $value) {
-                self::$items[ucfirst($file)][$key] = $value;
+            $file = substr($file, 0, -4);
+            $class = 'Tracer\application\config\\'.$file;
+            foreach (new $class() as $key => $value) {
+                self::$items[$file][$key] = $value;
             }
         }
     }
