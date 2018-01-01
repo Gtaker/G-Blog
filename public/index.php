@@ -10,5 +10,5 @@ define('PROJECT_PATH', '../application/project');          // 项目目录
 define('SYSTEM_PUBLIC', '../application/public');          // 公共目录
 define('LOG_PATH', '../Log');                       // 公共目录
 
-require SYSTEM_CORE . '../Autoload.php';
-require SYSTEM_CORE . '../Tracer.php';
+require SYSTEM_CORE . '/Autoload.php';
+require SYSTEM_CORE . '/Tracer.php';
