@@ -14,11 +14,11 @@ class Log
     const DEBUG = 'debug';
 
     private $log_path = LOG_PATH;
-    private $star_time;
-    private $today;
+    private $star_time = '';
+    private $today = '';
 
     /**
-     * 构造方法
+     * Log constructor.
      */
     public function __construct()
     {
