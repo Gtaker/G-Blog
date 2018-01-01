@@ -1,11 +1,7 @@
 <?php
+namespace Tracer\system\core;
 
-use Tracer\system\core\Config;
-use Tracer\system\core\URL;
-use Tracer\system\core\Router;
-use Tracer\system\core\Controller;
-use Tracer\system\core\Exception;
-use Tracer\system\core\Common;
+use function Tracer\system\core\Common\load_class;
 
 /**
  * 1，加载公共函数 Common.php
@@ -27,7 +23,7 @@ require SYSTEM_CORE . '/Common.php';
 /*********************
  * 注册各种处理函数
  *********************/
-//set_error_handler('errorHandler');              // 注册错误处理函数
+set_error_handler('errorHandler');              // 注册错误处理函数
 //set_exception_handler('ecpHandler');       // 注册异常处理函数
 //register_shutdown_function('sdHandler');            // 注册终止处理函数
 
@@ -39,25 +35,25 @@ require SYSTEM_CORE . '/Env.php';
 /*********************
  * 加载配置文件
  *********************/
-$_config = &Common\load_class('config');
+$_config =& load_class('config');
 $_config->loadSysConfig();
 
 /*********************
  * 初始化各种设置
  *********************/
-$_init = &Common\load_class('init');
+load_class('init');
 
 /*********************
  * 初始化日志类
  *********************/
-$_log = &Common\load_class('log');
+load_class('log');
 
 /*********************
  * 解析 URL
  *********************/
-$_url = &Common\load_class('url');
+load_class('url');
 
 /*********************
  * 路由 URL 到对应的控制器
  *********************/
-$_route = &Common\load_class('router');
+load_class('router');
