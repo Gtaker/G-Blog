@@ -1,0 +1,11 @@
+{
+    "name": "gtaker/g-blog",
+    "description": "a blog framework",
+    "authors": [
+        {
+            "name": "Gtaker",
+            "email": "459472218@qq.com"
+        }
+    ],
+    "require": {}
+}
