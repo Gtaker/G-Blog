@@ -129,8 +129,7 @@ class Log
     public function warning($message, array $context = array()): void
     {
         $file_path = $this->log_path .
-            DIRECTORY_SEPARATOR . $this->today .
-            DIRECTORY_SEPARATOR . date('H-i-s') . '.txt';
+            DIRECTORY_SEPARATOR . $this->today . '.txt';
         $flag = file_exists($file_path);
         $fs = fopen($file_path, 'a');
         $message =
@@ -152,8 +151,7 @@ class Log
     public function notice(string $message, array $context = array()): void
     {
         $file_path = $this->log_path .
-            DIRECTORY_SEPARATOR . $this->today .
-            DIRECTORY_SEPARATOR . date('H-i-s') . '.txt';
+            DIRECTORY_SEPARATOR . $this->today . '.txt';
         $flag = file_exists($file_path);
         $fs = fopen($file_path, 'a');
         $message =
@@ -176,8 +174,7 @@ class Log
     public function info(string $message, array $context = array()): void
     {
         $file_path = $this->log_path .
-            DIRECTORY_SEPARATOR . $this->today .
-            DIRECTORY_SEPARATOR . date('H-i-s') . '.txt';
+            DIRECTORY_SEPARATOR . $this->today . '.txt';
         $flag = file_exists($file_path);
         $fs = fopen($file_path, 'a');
         $message =
@@ -198,8 +195,7 @@ class Log
     public function debug($message, array $context = array()): void
     {
         $file_path = $this->log_path .
-            DIRECTORY_SEPARATOR . $this->today .
-            DIRECTORY_SEPARATOR . date('H-i-s') . '.txt';
+            DIRECTORY_SEPARATOR . $this->today . '.txt';
         $flag = file_exists($file_path);
         $fs = fopen($file_path, 'a');
         $message =
@@ -221,8 +217,7 @@ class Log
     public function log($level, $message, array $context = array()): void
     {
         $file_path = $this->log_path .
-            DIRECTORY_SEPARATOR . $this->today .
-            DIRECTORY_SEPARATOR . date('H-i-s') . '.txt';
+            DIRECTORY_SEPARATOR . $this->today . '.txt';
         $flag = file_exists($file_path);
         $fs = fopen($file_path, 'a');
         $message =
