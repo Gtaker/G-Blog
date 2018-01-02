@@ -11,6 +11,7 @@ class Init
     public function __construct()
     {
         $this->initTime();
+        $this->initSession();
     }
 
     /**
