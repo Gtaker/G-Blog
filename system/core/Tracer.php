@@ -4,8 +4,8 @@ namespace Tracer\system\core;
 use function Tracer\system\core\Common\load_class;
 
 /**
- * 1，加载公共函数 Common.php
- * 2，配置环境变量 Env.php
+ * 1，配置环境变量 Env.php
+ * 2，加载公共函数 Common.php
  * 3，注册各种处理函数 Register.php
  * 4，加载配置文件 Config.php
  * 5，初始化各种设置 Init.php
@@ -14,6 +14,10 @@ use function Tracer\system\core\Common\load_class;
  * 8，路由 URL 到对应的控制器 Route.php
  */
 
+/*********************
+ * 配置环境变量
+ *********************/
+require SYSTEM_CORE . '/Env.php';
 
 /*********************
  * 加载公共函数
@@ -23,14 +27,9 @@ require SYSTEM_CORE . '/Common.php';
 /*********************
  * 注册各种处理函数
  *********************/
-set_error_handler('errorHandler');              // 注册错误处理函数
-//set_exception_handler('ecpHandler');       // 注册异常处理函数
-//register_shutdown_function('sdHandler');            // 注册终止处理函数
-
-/*********************
- * 配置环境变量
- *********************/
-require SYSTEM_CORE . '/Env.php';
+set_error_handler('Tracer\system\core\Common\errorHandler');              // 注册错误处理函数
+set_exception_handler('Tracer\system\core\Common\exceptionHandler');       // 注册异常处理函数
+register_shutdown_function('Tracer\system\core\Common\sdHandler');            // 注册终止处理函数
 
 /*********************
  * 加载配置文件
