@@ -36,24 +36,38 @@ function show404(): void
 
 /**
  * 错误处理函数
+ * @param $errno
+ * @param $errstr
+ * @param $errfile
+ * @param $errline
  */
-function errorHandler($errno,$errstr,$errfile,$errline)
+function errorHandler($errno, $errstr, $errfile, $errline): void
 {
-
+    $title = 'ERROR LEVEL ' . $errno;
+    $message = "<b>message</b>: $errstr <br/><b>in:</b> $errfile <br/><b>on line: </b> $errline <br/>";
+    $error_handler = &load_class('Exception');
+    $error_handler->showError($title, $message, $errno);
 }
 
 /**
  * 异常处理函数
+ * @param \Throwable $throwable
  */
-function ecpHandler()
+function exceptionHandler(\Throwable $throwable): void
 {
+    $title = $throwable->getMessage();
+    $message = "the code: {$throwable->getCode()}<br/>
+                    on: {$throwable->getFile()}<br/>
+                    on line: {$throwable->getLine()}<br/>";
 
+    $error_handler = &load_class('Exception');
+    $error_handler->showException($title, $message);
 }
 
 /**
  * shutdown 处理函数
  */
-function sdHandler()
+function sdHandler(): void
 {
 
 }
