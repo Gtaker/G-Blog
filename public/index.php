@@ -12,7 +12,7 @@ define('LOG_PATH', '../Log');                               // 公共目录
 define('ERROR_PATH', '../application/error');               // 错误处理页面目录
 define('CONTROLLER_PATH', '../application/controller');     // 控制器目录
 define('MODEL_PATH', '../application/model');               // 模型目录
-define('VIEW_PATH', '../application/view');                 // 视图目录
+define('VIEW_PATH', '../application/views');                 // 视图目录
 
 require SYSTEM_CORE . '/Autoload.php';
 require SYSTEM_CORE . '/Tracer.php';
