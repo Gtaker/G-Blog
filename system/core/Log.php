@@ -44,9 +44,9 @@ class Log
         $fs = fopen($file_path, 'a');
         $message =
             "----- EMERGENCY -----\r\n" .
-            '----- frame start at:' . $this->star_time . "-----\r\n" .
-            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
-            "----- message: $message -----" . "\r\n\r\n\r\n";
+            '----- Framework start at:' . $this->star_time . "-----\r\n" .
+            '----- And write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "$message-----" . "\r\n\r\n";
         fwrite($fs, $message);
     }
 
@@ -67,9 +67,9 @@ class Log
         $fs = fopen($file_path, 'a');
         $message =
             "----- ALERT -----\r\n" .
-            '----- frame start at:' . $this->star_time . "-----\r\n" .
-            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
-            "----- message: $message -----" . "\r\n\r\n\r\n";
+            '----- Framework start at:' . $this->star_time . "-----\r\n" .
+            '----- And write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "$message-----" . "\r\n\r\n";
         fwrite($fs, $message);
     }
 
@@ -90,9 +90,9 @@ class Log
         $fs = fopen($file_path, 'a');
         $message =
             "----- CRITICAL -----\r\n" .
-            '----- frame start at:' . $this->star_time . "-----\r\n" .
-            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
-            "----- message: $message -----" . "\r\n\r\n\r\n";
+            '----- Framework start at:' . $this->star_time . "-----\r\n" .
+            '----- And write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "$message-----" . "\r\n\r\n";
         fwrite($fs, $message);
     }
 
@@ -111,9 +111,9 @@ class Log
         $fs = fopen($file_path, 'a');
         $message =
             "----- ERROR -----\r\n" .
-            '----- frame start at:' . $this->star_time . "-----\r\n" .
-            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
-            "----- message: $message -----" . "\r\n\r\n\r\n";
+            '----- Framework start at:' . $this->star_time . "-----\r\n" .
+            '----- And write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "$message-----" . "\r\n\r\n";
         fwrite($fs, $message);
     }
 
@@ -134,9 +134,9 @@ class Log
         $fs = fopen($file_path, 'a');
         $message =
             "----- WARNING -----\r\n" .
-            '----- frame start at:' . $this->star_time . "-----\r\n" .
-            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
-            "----- message: $message -----" . "\r\n\r\n\r\n";
+            '----- Framework start at:' . $this->star_time . "-----\r\n" .
+            '----- And write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "$message-----" . "\r\n\r\n";
         fwrite($fs, $message);
 
     }
@@ -156,9 +156,9 @@ class Log
         $fs = fopen($file_path, 'a');
         $message =
             "----- NOTICE -----\r\n" .
-            '----- frame start at:' . $this->star_time . "-----\r\n" .
-            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
-            "----- message: $message -----" . "\r\n\r\n\r\n";
+            '----- Framework start at:' . $this->star_time . "-----\r\n" .
+            '----- And write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "$message-----" . "\r\n\r\n";
         fwrite($fs, $message);
     }
 
@@ -179,9 +179,9 @@ class Log
         $fs = fopen($file_path, 'a');
         $message =
             "----- INFO -----\r\n" .
-            '----- frame start at:' . $this->star_time . "-----\r\n" .
-            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
-            "----- message: $message -----" . "\r\n\r\n\r\n";
+            '----- Framework start at:' . $this->star_time . "-----\r\n" .
+            '----- And write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "$message-----" . "\r\n\r\n";
         fwrite($fs, $message);
     }
 
@@ -200,9 +200,9 @@ class Log
         $fs = fopen($file_path, 'a');
         $message =
             "----- DEBUG -----\r\n" .
-            '----- frame start at:' . $this->star_time . "-----\r\n" .
-            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
-            "----- message: $message -----" . "\r\n\r\n\r\n";
+            '----- Framework start at:' . $this->star_time . "-----\r\n" .
+            '----- And write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "$message-----" . "\r\n\r\n";
         fwrite($fs, $message);
     }
 
@@ -222,9 +222,9 @@ class Log
         $fs = fopen($file_path, 'a');
         $message =
             "----- LOG -----\r\n" .
-            '----- frame start at:' . $this->star_time . "-----\r\n" .
-            '----- and write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
-            "----- message: $message -----" . "\r\n\r\n\r\n";
+            '----- Framework start at:' . $this->star_time . "-----\r\n" .
+            '----- And write this log at:' . date('Y-m-d H:i:s') . "-----\r\n" .
+            "$message-----" . "\r\n\r\n";
         fwrite($fs, $message);
     }
 
