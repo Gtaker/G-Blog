@@ -15,7 +15,7 @@ class Router
         $_url = load_class('url');
         $class = 'Tracer\application\controller\\' . $_url->class;
         $obj = new $class;
-        call_user_func_array([$obj,'hello'],$_url->param);
+        call_user_func_array([$obj,$_url->method],$_url->param);
     }
 
 }
