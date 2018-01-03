@@ -1,7 +1,7 @@
 <?php
 
 namespace Tracer\system\core;
-use Tracer\system\core\Common;
+use function Tracer\system\core\Common\load_class;
 
 class Init
 {
@@ -19,8 +19,8 @@ class Init
      */
     private function initTime(): void
     {
-        $config = &Common\load_class('config');
-        date_default_timezone_set($config->getItem('config','timezone'));
+        $config =& load_class('config');
+        date_default_timezone_set($config->getItem('timezone'));
     }
 
     /**

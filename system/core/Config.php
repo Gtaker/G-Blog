@@ -20,7 +20,7 @@ class Config
             $file = substr($file, 0, -4);
             $class = 'Tracer\application\config\\'.$file;
             foreach (new $class() as $key => $value) {
-                self::$items[$file][$key] = $value;
+                self::$items[$key] = $value;
             }
         }
     }
@@ -28,12 +28,11 @@ class Config
     /**
      * 获取配置项的值
      * @param string $item
-     * @param string $type
      * @return string
      */
-    public function &getItem(string $type, string $item): string
+    public function &getItem(string $item): string
     {
-        return self::$items[ucfirst($type)][$item];
+        return self::$items[$item];
     }
 
 }
