@@ -29,37 +29,48 @@ class Exception
 
     /**
      * 显示error界面
-     * @param string $title
-     * @param string $message
-     * @param int    $erron
+     * @param int    $errno
+     * @param string $errstr
+     * @param string $errfile
+     * @param int    $errline
      */
-    public function showError(string $title, string $message, int $erron): void
+    public function showError(int $errno, string $errstr, string $errfile, int $errline): void
     {
+
         //记录错误信息
         $_log =& load_class('log');
         $_log->error(
-            substr(
-                str_replace('</b>', '',
-                    str_replace('<b>', '',
-                        str_replace('<br/>', "\r\n", $message))), 9));
+            "ERROR LEVEL {$errstr}\r\n{$errstr}\r\nin:{$errfile}\r\non line:{$errline}\r\n"
+        );
+
+        $title = 'ERROR LEVEL ' . $errno;
+        $message = "<b>message</b>:$errstr <br/>
+                    <b>in:</b> $errfile <br/>
+                    <b>on line: </b> $errline <br/>";
 
         //显示错误页面
         require ERROR_PATH . '/error.php';
-        ($erron == E_NOTICE) || exit($erron);
+        ($errno == E_NOTICE) || exit($errno);
     }
 
     /**
      * 显示异常处理界面
-     * @param string $title
-     * @param string $message
+     * @param \Throwable $throwable
      */
-    public function showException(string $title, string $message): void
+    public function showException(\Throwable $throwable): void
     {
         //记录错误信息
         $_log =& load_class('log');
-        $_log->error($message);
+        $_log->error(
+            "Exception Code: {$throwable->getCode()}\r\n{$throwable->getMessage()}\r\nin: {$throwable->getFile()}\r\non line: {$throwable->getLine()}\r\n"
+        );
+
+        $title = $throwable->getMessage();
+        $message = "<b>error code: </b>{$throwable->getCode()}<br/>
+                    <b>in: </b>{$throwable->getFile()}<br/>
+                    <b>on line: </b>{$throwable->getLine()}<br/>";
 
         require ERROR_PATH . '/exception.php';
-        exit;
+        exit($throwable->getCode());
     }
 }
