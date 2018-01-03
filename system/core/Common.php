@@ -36,17 +36,16 @@ function show404(): void
 
 /**
  * 错误处理函数
- * @param $errno
- * @param $errstr
- * @param $errfile
- * @param $errline
+ * @param int    $errno
+ * @param string $errstr
+ * @param string $errfile
+ * @param int    $errline
  */
-function errorHandler($errno, $errstr, $errfile, $errline): void
+function errorHandler(int $errno, string $errstr, string $errfile, int $errline): void
 {
-    $title = 'ERROR LEVEL ' . $errno;
-    $message = "<b>message</b>: $errstr <br/><b>in:</b> $errfile <br/><b>on line: </b> $errline <br/>";
+
     $error_handler = &load_class('Exception');
-    $error_handler->showError($title, $message, $errno);
+    $error_handler->showError($errno, $errstr, $errfile, $errline);
 }
 
 /**
@@ -55,13 +54,8 @@ function errorHandler($errno, $errstr, $errfile, $errline): void
  */
 function exceptionHandler(\Throwable $throwable): void
 {
-    $title = $throwable->getMessage();
-    $message = "the code: {$throwable->getCode()}<br/>
-                    on: {$throwable->getFile()}<br/>
-                    on line: {$throwable->getLine()}<br/>";
-
     $error_handler = &load_class('Exception');
-    $error_handler->showException($title, $message);
+    $error_handler->showException($throwable);
 }
 
 /**
