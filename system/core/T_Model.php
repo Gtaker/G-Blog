@@ -8,6 +8,8 @@ use function Tracer\system\core\Common\load_class;
 class T_Model
 {
     protected $connect;
+    protected $conditions = '';
+    protected $join_table = '';
 
     /**
      * T_Model constructor.
@@ -54,6 +56,9 @@ class T_Model
         return $stmt->fetchAll();
     }
 
+    /**
+     * 执行 SQL 操作
+     */
     protected function execute()
     {
 
@@ -158,29 +163,72 @@ class T_Model
      */
     protected function &where(array $conditions): T_Model
     {
-        $sql = '';
+        $sql = empty($this->conditions) ? 'WHERE ' : 'AND ';
         foreach ($conditions as $condition) {
-            $sql                   .= "{$condition[0]} {$condition[1]} :$condition[0],";
-            $values[$condition[0]] = $condition[2];
+            $sql                  .= "{$condition[0]} {$condition[1]} :? AND ";
+            $this->where_values[] = $condition[2];
         }
-        $this->conditions = substr($sql, 0, -1);
-        $this->values     = $values;
+        $this->conditions .= substr($sql, 0, -4);
 
         return $this;
     }
 
-    protected function &join(): T_Model
+    /**
+     * JOIN 子句
+     *
+     * @param string $table
+     * @param array  $conditions ['a.id','b.id']
+     * @param string $type
+     *
+     * @return T_Model
+     * @throws \Exception
+     */
+    protected function &join(string $table, array $conditions, string $type = 'INNER'): T_Model
     {
+        if (empty($this->table)) {
+            throw new \Exception('You must assign a table first.');
+        }
+        $this->join_table .= "$type JOIN $table ON {$conditions[0]} = {$conditions[1]}";
+
         return $this;
     }
 
-    protected function &group(): T_Model
+    /**
+     * GROUP BY 子句
+     *
+     * @param array $column
+     * @param array $having
+     *
+     * @return T_Model
+     */
+    protected function &group(array $column, array $having = []): T_Model
     {
+        $this->group  = implode(',', $column);
+        $this->having = 'HAVING ';
+        foreach ($having as $condition) {
+            $this->having          .= "$condition[0] $condition[1] ? AND ";
+            $this->having_values[] = $condition[3];
+        }
+        $this->having = substr($this->having, 0, -4);
+
         return $this;
     }
 
-    protected function &order(): T_Model
+    /**
+     * ORDER BY 子句
+     *
+     * @param array $conditions ['a'=>'asc','b'=>'desc']
+     *
+     * @return T_Model
+     */
+    protected function &order(array $conditions): T_Model
     {
+        $this->order = 'ORDER BY ';
+        foreach ($conditions as $column => $rule) {
+            $this->order .= "$column $rule,";
+        }
+        $this->order = substr($this->order, 0, -1);
+
         return $this;
     }
 
