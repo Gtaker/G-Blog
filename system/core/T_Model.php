@@ -10,6 +10,7 @@ class T_Model
     protected $connect;
     protected $conditions = '';
     protected $join_table = '';
+    protected $having_values = [];
 
     /**
      * T_Model constructor.
@@ -20,8 +21,7 @@ class T_Model
         try {
             $this->connect = new \PDO(
                 $_db->getItem('dsn'),
-                $_db->getItem('db_username'), $_db->getItem('db_psd'),
-                [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::ATTR_TIMEOUT => 3]);
+                $_db->getItem('db_username'), $_db->getItem('db_psd'));
         } catch (\PDOException $exception) {
             throw new \Exception(
                 iconv('gbk', 'utf-8', $exception->getMessage()),
@@ -61,19 +61,32 @@ class T_Model
      */
     protected function execute()
     {
-
+        switch ($this->moment) {
+            case MOMENT_INSERT:
+                return $this->excInsert();
+            case MOMENT_DELETE:
+                return $this->excDelete();
+            case MOMENT_UPDATE:
+                return $this->excUpdate();
+            case MOMENT_SELECT:
+                return $this->excSelect();
+            default:
+                throw new \Exception('You must assign a type of DML or DQL', 5);
+        }
     }
 
     /**
      * SELECT 语句
      *
-     * @param array $column
+     * @param array  $column
+     * @param string $table
      *
      * @return T_Model
      */
-    protected function &select(array $column): T_Model
+    protected function &select(array $column, string $table): T_Model
     {
         $this->moment = MOMENT_SELECT;
+        $this->table  = $table;
         $this->column = implode(',', $column);
 
         return $this;
@@ -93,10 +106,10 @@ class T_Model
         $this->table  = $table;
         $sql          = '';
         foreach (array_keys($set) as $column) {
-            $sql .= "$column=:$column,";
+            $sql .= "$column = :$column,";
         }
-        $this->update_prepare = substr($sql, 0, -1);
-        $this->values         = $set;
+        $this->update        = substr($sql, 0, -1);
+        $this->update_values = $set;
 
         return $this;
     }
@@ -133,8 +146,8 @@ class T_Model
         if (count($columns) !== count($values)) {
             throw new \Exception('the number of columns must equal to values\'s number', COUCHBASE_QUERY_ERROR);
         }
-        $this->column = implode(',', $columns);
-        $this->values = $values;
+        $this->column        = '(' . implode(',', $columns) . ')';
+        $this->insert_values = $values;
 
         return $this;
     }
@@ -154,7 +167,7 @@ class T_Model
     }
 
     /**
-     * WHERE子句
+     * 使用 AND 连接的WHERE子句
      * [['name','=','mike'],['age','>',18]]
      *
      * @param array $conditions
@@ -165,7 +178,26 @@ class T_Model
     {
         $sql = empty($this->conditions) ? 'WHERE ' : 'AND ';
         foreach ($conditions as $condition) {
-            $sql                  .= "{$condition[0]} {$condition[1]} :? AND ";
+            $sql                  .= "{$condition[0]} {$condition[1]} ? AND ";
+            $this->where_values[] = $condition[2];
+        }
+        $this->conditions .= substr($sql, 0, -4);
+
+        return $this;
+    }
+
+    /**
+     * 使用 OR 连接的WHERE 子句
+     *
+     * @param array $conditions
+     *
+     * @return T_Model
+     */
+    protected function &orWhere(array $conditions): T_Model
+    {
+        $sql = empty($this->conditions) ? 'WHERE ' : 'OR ';
+        foreach ($conditions as $condition) {
+            $sql                  .= "{$condition[0]} {$condition[1]} ? OR ";
             $this->where_values[] = $condition[2];
         }
         $this->conditions .= substr($sql, 0, -4);
@@ -203,13 +235,17 @@ class T_Model
      */
     protected function &group(array $column, array $having = []): T_Model
     {
-        $this->group  = implode(',', $column);
-        $this->having = 'HAVING ';
-        foreach ($having as $condition) {
-            $this->having          .= "$condition[0] $condition[1] ? AND ";
-            $this->having_values[] = $condition[3];
+        $this->group = 'GROUP BY ' . implode(',', $column);
+        if ( ! empty($having)) {
+            $this->having = 'HAVING ';
+            foreach ($having as $condition) {
+                $this->having          .= "$condition[0] $condition[1] ? AND ";
+                $this->having_values[] = $condition[3];
+            }
+            $this->having = substr($this->having, 0, -4);
+        } else {
+            $this->having = '';
         }
-        $this->having = substr($this->having, 0, -4);
 
         return $this;
     }
@@ -232,4 +268,63 @@ class T_Model
         return $this;
     }
 
+    /**
+     * 执行 INSERT 语句
+     * @return bool
+     */
+    protected function excInsert(): bool
+    {
+        $placeholder = '';
+        foreach ($this->insert_values as $value) {
+            $placeholder .= '?,';
+        }
+        $placeholder = '(' . substr($placeholder, 0, -1) . ')';
+        $sql         =
+            "INSERT INTO $this->table $this->column VALUES $placeholder";
+
+        $stmt = $this->connect->prepare($sql);
+
+        return $stmt->execute($this->insert_values);
+    }
+
+    /**
+     * 执行 DELETE 语句
+     * @return bool
+     */
+    protected function excDelete(): bool
+    {
+        $sql  = "DELETE FROM {$this->table} {$this->conditions}";
+        $stmt = $this->connect->prepare($sql);
+
+        return $stmt->execute($this->where_values);
+    }
+
+    /**
+     * 执行 DELETE 语句
+     * @return bool
+     */
+    protected function excUpdate(): bool
+    {
+        $sql  = "UPDATE {$this->table} SET {$this->update} {$this->conditions}";
+        $stmt = $this->connect->prepare($sql);
+
+        return $stmt->execute($this->update_values);
+    }
+
+    /**
+     * 执行 SELECT 语句
+     * @return bool|\PDOStatement
+     */
+    protected function excSelect()
+    {
+        $sql  = "SELECT {$this->column} FROM 
+                {$this->table} {$this->join_table} 
+                {$this->conditions} {$this->group} {$this->having} {$this->order}";
+        $stmt = $this->connect->prepare($sql);
+        if ( ! $stmt->execute(array_merge($this->where_values, $this->having_values))) {
+            return false;
+        } else {
+            return $stmt;
+        }
+    }
 }
